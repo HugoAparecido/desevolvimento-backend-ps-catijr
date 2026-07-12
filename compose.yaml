@@ -1,13 +1,28 @@
 services:
   postgres:
     image: 'postgres:latest'
+    container_name: spotify_db_container
     environment:
       - 'POSTGRES_DB=spotify_db'
       - 'POSTGRES_PASSWORD=secret'
       - 'POSTGRES_USER=postgresql'
     ports:
       - '5432:5432'
-    expose:
-      - '5432'
     volumes:
-      - './spotify_data:/var/lib/postgresql'
+      - './spotify_data:/var/lib/postgresql/data'
+
+  app:
+    image: maven:3.9-eclipse-temurin-25
+    container_name: spotify_app_container
+    # Esse comando mantém o container ligado rodando no fundo para o VS Code se conectar
+    command: sleep infinity
+    ports:
+      - '8080:8080'
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/spotify_db
+      - SPRING_DATASOURCE_USERNAME=postgresql
+      - SPRING_DATASOURCE_PASSWORD=secret
+    volumes:
+      - .:/app
