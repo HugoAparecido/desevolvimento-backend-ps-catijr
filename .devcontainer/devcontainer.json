@@ -1,0 +1,14 @@
+{
+    "name": "Backend Java 25",
+    "dockerComposeFile": "../compose.yaml",
+    "service": "app",
+    "workspaceFolder": "/app",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "vscjava.vscode-java-pack",
+                "vmware.vscode-boot-dev-pack"
+            ]
+        }
+    }
+}
