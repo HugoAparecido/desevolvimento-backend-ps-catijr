@@ -74,7 +74,7 @@ public class UserService {
     public List<GetAlbumNoMusicsDTO> getUserRecentAlbums() {
         List<Album> albums = albumRepository.findTop5By();
 
-        return albums.stream().map(albumMapper::toNoMusicsDTO).toList();
+        return albums.stream().map(GetAlbumNoMusicsDTO::new).toList();
     }
 
 }
