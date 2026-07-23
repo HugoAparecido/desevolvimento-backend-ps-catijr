@@ -18,7 +18,7 @@ import java.util.UUID;
 @RequestMapping("/playlist")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:5173", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
-        RequestMethod.DELETE, RequestMethod.OPTIONS }, allowedHeaders = "*", maxAge = 3600)
+        RequestMethod.PATCH, RequestMethod.DELETE, RequestMethod.OPTIONS }, allowedHeaders = "*", maxAge = 3600)
 public class PlaylistController {
 
     private final PlaylistService playlistService;
