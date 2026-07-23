@@ -1,6 +1,5 @@
 package com.catijr.backend.Services;
 
-
 import com.catijr.backend.DTOs.Playlist.GetPlaylistNoMusicDTO;
 import com.catijr.backend.DTOs.Playlist.PutPlaylistDTO;
 import com.catijr.backend.Entities.Music;
@@ -76,14 +75,18 @@ public class PlaylistService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
-  
-    public GetPlaylistNoMusicDTO createPlaylist(CreatePlaylistDTO playlist){
+
+    public GetPlaylistNoMusicDTO createPlaylist(CreatePlaylistDTO playlist) {
         Playlist playlistEntity = playlistMapper.toEntity(playlist);
+
+        playlistEntity.setMusicQtd(0);
+        playlistEntity.setDuration(0);
+        playlistEntity.setSongs(null);
+
         Playlist savedEntity = playlistRepository.save(playlistEntity);
 
         return playlistMapper.toDTO(savedEntity);
     }
-
 
     public void deletePlaylistById(UUID playlistId) {
         if (playlistRepository.existsById(playlistId)) {
