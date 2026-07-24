@@ -1,7 +1,11 @@
 package com.catijr.backend.Services;
 
+import com.catijr.backend.DTOs.Album.GetAlbumDTO;
+import com.catijr.backend.Entities.Album;
 import com.catijr.backend.Entities.Music;
 import com.catijr.backend.Repositories.AlbumRepository;
+
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,9 +21,17 @@ public class AlbumService {
     private final AlbumRepository albumRepository;
 
     public List<Music> getMusicsByAlbumId(UUID albumId) {
-        var album = albumRepository.findById(albumId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        var album = albumRepository.findById(albumId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         return album.getMusics();
+    }
+
+    public Album getAlbumById(UUID albuId) {
+        var album = albumRepository.findById(albuId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        return album;
     }
 
 }
