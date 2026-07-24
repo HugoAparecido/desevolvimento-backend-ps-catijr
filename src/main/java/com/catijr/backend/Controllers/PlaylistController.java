@@ -1,6 +1,5 @@
 package com.catijr.backend.Controllers;
 
-
 import com.catijr.backend.DTOs.Music.GetMusicDTO;
 import com.catijr.backend.DTOs.Playlist.GetPlaylistDTO;
 import com.catijr.backend.DTOs.Playlist.GetPlaylistNoMusicDTO;
@@ -14,13 +13,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 
 @RestController
-@RequestMapping("/playlist/")
+@RequestMapping("/playlist")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
+        RequestMethod.PATCH, RequestMethod.DELETE, RequestMethod.OPTIONS }, allowedHeaders = "*", maxAge = 3600)
 public class PlaylistController {
 
     private final PlaylistService playlistService;
@@ -36,7 +34,7 @@ public class PlaylistController {
 
     @PutMapping("{playlistId}/attributes")
     public ResponseEntity<GetPlaylistNoMusicDTO> editPlaylistAttributes(@PathVariable String playlistId,
-                                                                        @RequestBody PutPlaylistDTO changesDTO) {
+            @RequestBody PutPlaylistDTO changesDTO) {
         var edited_playlist = playlistService.editPlaylistAttributes(UUID.fromString(playlistId), changesDTO);
 
         GetPlaylistNoMusicDTO responseDTO = new GetPlaylistNoMusicDTO(edited_playlist);
@@ -46,19 +44,18 @@ public class PlaylistController {
 
     @PatchMapping("{playlistId}/{musicId}")
     public ResponseEntity<GetPlaylistDTO> addMusicToPlaylist(@PathVariable String playlistId,
-                                                             @PathVariable String musicId) {
+            @PathVariable String musicId) {
         var playlist = playlistService.addMusicToPlaylist(UUID.fromString(playlistId), UUID.fromString(musicId));
 
         GetPlaylistDTO responseDTO = new GetPlaylistDTO(playlist);
 
         return ResponseEntity.ok(responseDTO);
     }
-    
+
     @PostMapping("/")
     public GetPlaylistNoMusicDTO postMethodName(@RequestBody CreatePlaylistDTO playlist) {
         return playlistService.createPlaylist(playlist);
     }
-    
 
     @DeleteMapping("{playlistId}")
     public ResponseEntity<Void> deletePlaylistById(@PathVariable String playlistId) {
@@ -69,7 +66,7 @@ public class PlaylistController {
 
     @DeleteMapping("{playlistId}/{musicId}")
     public ResponseEntity<Void> deleteMusicById(@PathVariable String playlistId,
-                                                @PathVariable String musicId) {
+            @PathVariable String musicId) {
         playlistService.deleteMusicById(UUID.fromString(playlistId), UUID.fromString(musicId));
 
         return ResponseEntity.ok().build();
