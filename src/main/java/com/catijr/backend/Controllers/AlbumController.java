@@ -1,5 +1,6 @@
 package com.catijr.backend.Controllers;
 
+import com.catijr.backend.DTOs.Album.GetAlbumDTO;
 import com.catijr.backend.DTOs.Music.GetMusicDTO;
 import com.catijr.backend.Services.AlbumService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,15 @@ public class AlbumController {
         var musics = albumService.getMusicsByAlbumId(UUID.fromString(albumId));
 
         List<GetMusicDTO> responseDTO = musics.stream().map(GetMusicDTO::new).toList();
+
+        return ResponseEntity.ok(responseDTO);
+    }
+
+    @GetMapping("{albumId}")
+    public ResponseEntity<GetAlbumDTO> getAlbumById(@PathVariable UUID albumId) {
+        var album = albumService.getAlbumById(albumId);
+
+        var responseDTO = new GetAlbumDTO(album);
 
         return ResponseEntity.ok(responseDTO);
     }
